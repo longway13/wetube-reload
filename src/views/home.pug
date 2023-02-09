@@ -1,0 +1,17 @@
+extends base.pug
+include mixins/video
+
+block nav 
+    nav 
+        ul 
+            li
+                a(href="/videos/upload") Upload video
+
+
+block content 
+    h2 Welcome! Here you will see Home page!
+    
+    each movie in videos
+        +video(movie)
+    else 
+       span Sorry     

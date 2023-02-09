@@ -7,7 +7,7 @@
     "url": "git+https://github.com/longway13/wetube-reload.git"
   },
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js"
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "author": "Gwanwoo",
   "license": "MIT",
@@ -16,7 +16,9 @@
   },
   "homepage": "https://github.com/longway13/wetube-reload#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
