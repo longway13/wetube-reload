@@ -4,7 +4,7 @@
   "description": "The best way to watch videos by nomadcoder-gwanwoo",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/longway13/wetube-reload.git"
+    "url": "git+https://github.com/longway13/wetube-reload"
   },
   "scripts": {
     "dev": "nodemon --exec babel-node src/init.js"
