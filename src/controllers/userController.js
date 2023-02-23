@@ -151,6 +151,22 @@ export const postEdit = async (req, res) => {
     },
     body: { name, email, username, location },
   } = req;
+  if (username !== req.session.user.username) {
+    const sameUsername = await User.findOne({ username });
+    if (sameUsername) {
+      return res.status(400).render("edit-profile", {
+        errorMessage: "Username already existed.",
+      });
+    }
+  }
+  if (email !== req.session.user.email) {
+    const sameEmail = await User.findOne({ email });
+    if (sameEmail) {
+      return res.status(400).render("edit-profile", {
+        errorMessage: "Email already existed.",
+      });
+    }
+  }
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
