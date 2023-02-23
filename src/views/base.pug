@@ -5,15 +5,25 @@ html(lang="ko")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css")
     body 
         header       
-            h1= pageTitle
+            h1 Who is sexy? 
             nav 
                 ul 
-                    li
-                        a(href="/videos/upload") Upload video
                     li
                         a(href="/") Home
                     li
                         a(href="/search") Search
+                    if loggedIn 
+                        li
+                            a(href="/videos/upload") Upload video
+                        li 
+                            a(href="/users/edit") Edit Profile
+                        li 
+                            a(href="/users/logout") Logout
+                    else        
+                        li
+                            a(href="/login") Login
+                        li
+                            a(href="/join") Join
         main    
             block content
             input(placeholder="hello" type="text")
