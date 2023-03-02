@@ -96,6 +96,22 @@ const handleMouseMove = () => {
 const handleMouseLeave = () => {
   controlsTimeout = setTimeout(hideControls, 3000);
 };
+const fBtnToFullScreen = (event) => {
+  const { key } = event;
+  if (key.toLowerCase() === "f") {
+    document.fullscreenElement
+      ? document.exitFullscreen()
+      : videoContainer.requestFullscreen();
+  }
+};
+const spaceBtnToPlay = (event) => {
+  const space = " ";
+  const { key } = event;
+  if (key === space) {
+    video.paused ? video.play() : video.pause();
+    playBtnIcon.className = video.paused ? "fas fa-play" : "fas fa-pause";
+  }
+};
 
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
@@ -106,3 +122,9 @@ timeline.addEventListener("input", handleTimelineChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
+video.addEventListener("click", () => {
+  video.paused ? video.play() : video.pause();
+  playBtnIcon.className = video.paused ? "fas fa-play" : "fas fa-pause";
+});
+addEventListener("keydown", fBtnToFullScreen);
+addEventListener("keydown", spaceBtnToPlay);
