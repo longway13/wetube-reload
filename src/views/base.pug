@@ -2,29 +2,11 @@ doctype html
 html(lang="ko")
     head 
         title #{pageTitle} | Wetube
-        link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.12/mvp.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css")
+        link(rel="stylesheet" href="/static/css/styles.css")
     body 
-        header       
-            h1 Who is sexy? 
-            nav 
-                ul 
-                    li
-                        a(href="/") Home
-                    li
-                        a(href="/search") Search
-                    if loggedIn 
-                        li
-                            a(href="/videos/upload") Upload video
-                        li 
-                            a(href="/users/edit") Edit Profile
-                        li 
-                            a(href="/users/logout") Logout
-                    else        
-                        li
-                            a(href="/login") Login
-                        li
-                            a(href="/join") Join
+        include partials/header
         main    
             block content
-            input(placeholder="hello" type="text")
-    include partials/footer.pug
+        include partials/footer.pug
+    block scripts 

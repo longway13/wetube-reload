@@ -1,6 +1,7 @@
 import User from "../models/User";
 import bcrypt from "bcrypt";
 import { token } from "morgan";
+import Video from "../models/Video";
 
 export const getJoin = (req, res) => {
   res.render("join", { pageTitle: "Join" });
@@ -45,7 +46,7 @@ export const postLogin = async (req, res) => {
   // check if the account exists
   // checi if password correct
   const { username, password } = req.body;
-  const user = await User.findOne({ username, socialOnly: true });
+  const user = await User.findOne({ username, socialOnly: false });
   const pageTitle = "Login";
   if (!user) {
     console.log("user doesn't exist.");
@@ -147,9 +148,10 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl },
     },
     body: { name, email, username, location },
+    file,
   } = req;
   if (username !== req.session.user.username) {
     const sameUsername = await User.findOne({ username });
@@ -170,6 +172,7 @@ export const postEdit = async (req, res) => {
   const updateUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,
@@ -187,4 +190,52 @@ export const logout = (req, res) => {
   // session 으로 login session 삭제 시 logout 됨.
   return res.redirect("/");
 };
-export const see = (req, res) => res.send("See");
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  });
+  console.log(user);
+  if (!user) {
+    return res.status(404).render("404", { pageTitle: "User not found." });
+  }
+  return res.render("users/profile", {
+    pageTitle: `${user.name}'s Profile`,
+    user,
+  });
+};
+
+export const getChangePassword = (req, res) => {
+  return res.render("users/change-password", { pageTitle: "Change Password" });
+};
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id, password },
+    },
+    body: { oldPassword, newPassword, newConfirm },
+  } = req;
+  if (newPassword !== newConfirm) {
+    return res.status(400).render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "Tha password does not math the confirmation",
+    });
+  }
+  const oldPasswordOk = await bcrypt.compare(oldPassword, password);
+  if (!oldPasswordOk) {
+    return res.render("users/change-password", {
+      pageTitle: "Change Password",
+      errorMessage: "Current password doesn't correct.",
+    });
+  }
+  const user = await User.findById(_id);
+  user.password = newPassword;
+  await user.save();
+  req.session.user.password = user.password;
+  // save: hash하기 위함
+  return res.redirect("/users/logout");
+};

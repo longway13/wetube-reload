@@ -1,11 +1,17 @@
 extends base
 
 block content 
+
     if errorMessage 
         h4=errorMessage
-    form(method="POST")
+    form(method="POST" enctype="multipart/form-data").edit-profile__form
+        label(for="avatart") Avatar
+        input(type="file" id="avatar" name="avatar", accept="image/*")
         input(name="email", placeholder="email" type="email" required value=loggedInUser.email)
         input(name="name", placeholder="name" type="text" required value=loggedInUser.name)
         input(name="username", placeholder="username" type="text" required value=loggedInUser.username)
         input(name="location",placeholder="location" type="text" required value=loggedInUser.location)
         input(type="submit", value= "Update Profile")
+        if !loggedInUser.socialOnly
+            div.edit-profile__password 
+                a(href="change-password") Change password &rarr;
