@@ -113,6 +113,13 @@ const spaceBtnToPlay = (event) => {
   }
 };
 
+const handleEnded = () => {
+  const { id } = videoContainer.dataset;
+  fetch(`/api/videos/${id}/view`, {
+    method: "post",
+  });
+};
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
@@ -126,5 +133,6 @@ video.addEventListener("click", () => {
   video.paused ? video.play() : video.pause();
   playBtnIcon.className = video.paused ? "fas fa-play" : "fas fa-pause";
 });
+video.addEventListener("ended", handleEnded);
 addEventListener("keydown", fBtnToFullScreen);
 addEventListener("keydown", spaceBtnToPlay);
