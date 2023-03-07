@@ -183,11 +183,12 @@ export const postEdit = async (req, res) => {
     }
   );
   req.session.user = updateUser;
+  e;
   return res.redirect("/users/edit");
 };
 export const logout = (req, res) => {
   req.session.destroy();
-  // session 으로 login session 삭제 시 logout 됨.
+  req.flash("info", "Bye Bye");
   return res.redirect("/");
 };
 export const see = async (req, res) => {
@@ -210,6 +211,10 @@ export const see = async (req, res) => {
 };
 
 export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly === true) {
+    req.flash("error", "Not authorized");
+    return res.redirect("/");
+  }
   return res.render("users/change-password", { pageTitle: "Change Password" });
 };
 export const postChangePassword = async (req, res) => {
@@ -235,7 +240,7 @@ export const postChangePassword = async (req, res) => {
   const user = await User.findById(_id);
   user.password = newPassword;
   await user.save();
-  req.session.user.password = user.password;
+  req.flash("info", "Password updated");
   // save: hash하기 위함
   return res.redirect("/users/logout");
 };

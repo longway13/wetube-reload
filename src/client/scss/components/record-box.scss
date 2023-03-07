@@ -1,0 +1,24 @@
+.record-box {
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  video {
+    margin-bottom: 50px;
+    border-radius: 10px;
+    width: 900px;
+    margin: 30px auto;
+  }
+  button {
+    width: 200px;
+    height: 60px;
+    margin: 0px auto;
+    background-color: $red;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+}

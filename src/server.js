@@ -2,6 +2,7 @@ import "./db";
 import "./models/Video";
 import express from "express";
 import session from "express-session";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import morgan from "morgan";
 import rootRouter from "./routers/rootRouter";
@@ -25,8 +26,13 @@ app.use(
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
   })
 );
-
+app.use(flash());
 app.use(localsMiddleware);
+app.use((req, res, next) => {
+  res.header("Cross-Origin-Embedder-Policy", "require-corp");
+  res.header("Cross-Origin-Opener-Policy", "same-origin");
+  next();
+});
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets"));
 app.use("/", rootRouter);
