@@ -3,7 +3,6 @@ const form = document.getElementById("commentForm");
 
 const deleteComment = (event) => {
   const id = event.srcElement.parentNode.dataset.id;
-  console.log(id);
 };
 
 const addComment = (text, id) => {
