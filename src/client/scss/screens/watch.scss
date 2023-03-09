@@ -1,0 +1,14 @@
+.video__comments {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  .video__comment {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+}
