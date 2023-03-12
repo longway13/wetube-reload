@@ -17,7 +17,7 @@ const addComment = (text, id, socialOnly, avatarUrl, name) => {
   comment.classList = "video__comment";
   const userAvatar = document.createElement("img");
   userAvatar.id = "commentAvatar";
-  userAvatar.src = socialOnly ? avatarUrl : `/${avatarUrl}`;
+  userAvatar.src = avatarUrl;
   userAvatar.crossOrigin = "anonymous";
   const commentTextBox = document.createElement("div");
   commentTextBox.className = "video__comment-text";
