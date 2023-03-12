@@ -22,3 +22,14 @@
   height: 150px;
   border-radius: 50%;
 }
+
+.errorMessageNotLogin {
+  max-width: 600px;
+  background-color: tomato;
+  color: white;
+  margin: 50px auto;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 100px;
+}

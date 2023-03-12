@@ -19,19 +19,39 @@ block content
                     i.fas.fa-volume-up
             div 
                 span#fullScreen 
-                    i.fas.fa-expand
+                    i.fas.fa-expand            
+    div.videoBox 
+        div.videoTitle
+           h3=video.title
+           div.videoTitle__hashtags 
+                each hashtag in video.hashtags
+                    span #{hashtag} 
+        if String(video.owner._id) === String(loggedInUser._id)   
+            div.editVideo 
+                button
+                    a(href="/videos/" + video._id + "/edit" ) Edit video
+    hr
     if loggedIn     
         div.video__add-comments
             form.video__comment-form#commentForm
-                textarea( cols="30", rows="10" placeholder="Write a nice comment...")
-                button Add Comment 
+                span#commentArea Comment
+                div#commentBox 
+                    textarea( cols="1", rows="5" placeholder="댓글 추가...")
+                    button.video__commentBtn Add Comment 
     div.video__comments
         ul 
             each comment in video.comments.reverse() 
                 li.video__comment(data-id = comment._id)
-                    span=comment.text 
-                    if String(comment.owner) === String(loggedInUser._id)      
-                        button.deleteComment ❌
+                    if comment.owner.socialOnly 
+                        img(src = comment.owner.avatarUrl crossOrigin)#commentAvatar
+                    else 
+                        img(src= "/" + comment.owner.avatarUrl)#commentAvatar
+                    div.video__comment-text 
+                        span=comment.owner.name
+                        span=comment.text 
+                    if String(comment.owner._id) === String(loggedInUser._id)      
+                        button.deleteComment DELETE
+                            
                         
     
 

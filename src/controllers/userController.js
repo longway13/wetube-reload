@@ -49,7 +49,6 @@ export const postLogin = async (req, res) => {
   const user = await User.findOne({ username, socialOnly: false });
   const pageTitle = "Login";
   if (!user) {
-    console.log("user doesn't exist.");
     return res.status(400).render("login", {
       pageTitle,
       errorMessage: "An account with this username doesn't exist.",
@@ -135,6 +134,7 @@ export const finishGithubLogin = async (req, res) => {
       }
       req.session.loggedIn = true;
       req.session.user = user;
+      console.log(req.session);
       return res.redirect("/");
     }
   } catch (error) {
@@ -183,12 +183,11 @@ export const postEdit = async (req, res) => {
     }
   );
   req.session.user = updateUser;
-  e;
+
   return res.redirect("/users/edit");
 };
 export const logout = (req, res) => {
   req.session.destroy();
-  req.flash("info", "Bye Bye");
   return res.redirect("/");
 };
 export const see = async (req, res) => {
@@ -200,7 +199,7 @@ export const see = async (req, res) => {
       model: "User",
     },
   });
-  console.log(user);
+
   if (!user) {
     return res.status(404).render("404", { pageTitle: "User not found." });
   }
@@ -225,9 +224,9 @@ export const postChangePassword = async (req, res) => {
     body: { oldPassword, newPassword, newConfirm },
   } = req;
   if (newPassword !== newConfirm) {
+    req.flash("error", "Tha password does not math the confirmation");
     return res.status(400).render("users/change-password", {
       pageTitle: "Change Password",
-      errorMessage: "Tha password does not math the confirmation",
     });
   }
   const oldPasswordOk = await bcrypt.compare(oldPassword, password);
@@ -235,6 +234,13 @@ export const postChangePassword = async (req, res) => {
     return res.render("users/change-password", {
       pageTitle: "Change Password",
       errorMessage: "Current password doesn't correct.",
+    });
+  }
+  //  new password is not different with old password.
+  if (newPassword === oldPassword) {
+    req.flash("error", "Duplicate Error");
+    return res.render("users/change-password", {
+      pageTitle: "Change Password",
     });
   }
   const user = await User.findById(_id);

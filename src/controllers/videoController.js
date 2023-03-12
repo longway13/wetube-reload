@@ -14,7 +14,15 @@ export const home = async (req, res) => {
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
-  const video = await Video.findById(id).populate("owner").populate("comments");
+  const video = await Video.findById(id)
+    .populate("owner")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    });
   if (!video) {
     return res.render("404", { pageTitle: "Video not found." });
   }
@@ -47,11 +55,11 @@ export const postEdit = async (req, res) => {
     user: { _id },
   } = req.session;
   const { title, description, hashtags } = req.body;
-  const video = await Video.exists({ _id: id });
+  const video = await Video.findById(id);
   if (!video) {
     return res.status(404).render("404", { pageTitle: "Video not found." });
   }
-  if (String(video.owner) !== String(_id)) {
+  if (String(video.owner._id) !== String(_id)) {
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
@@ -60,7 +68,7 @@ export const postEdit = async (req, res) => {
     hashtags: Video.formatHashtags(hashtags),
   });
 
-  return res.redirect(`/videos/${id}`);
+  return res.status(200).redirect(`/videos/${id}`);
 };
 export const getUpload = (req, res) => {
   return res.render("upload", {
@@ -160,5 +168,29 @@ export const createComment = async (req, res) => {
   video.save();
   console.log("comment is created");
 
-  return res.status("201").json({ newCommentId: comment._id });
+  return res.status("201").json({
+    newCommentId: comment._id,
+    socialOnly: user.socialOnly,
+    avatarUrl: user.avatarUrl,
+    name: user.name,
+  });
+};
+
+export const deleteComment = async (req, res) => {
+  const { id: commentId } = req.params;
+  const comment = await Comment.findById(commentId);
+  if (!comment) {
+    req.flash("error", "Comment not found.");
+    return res.sendStatus(404);
+  }
+  if (String(comment.owner) !== req.session.user._id) {
+    req.flash("error", "Not authorized");
+    return res.sendStatus(404);
+  }
+  console.log("ok");
+  await Comment.findByIdAndDelete(commentId);
+  req.flash("Your comment is deleted");
+  return res.sendStatus("200");
+  // delete part
+  // await Comment.findByIdAndDelete(commentId);
 };

@@ -2,9 +2,15 @@ extends base.pug
 
 
 block content
-    h4 Change Title of Video #{video.id}
-    form(method="POST")
-        input(name="title" placeholder="New Title" value=video.title required)
-        input(name="description" placeholder="Descrption" required type="text" value=video.description)
+    div.pageTitle-edit
+        h4 EDIT YOUR VIDEO
+        h4 #{video.title}
+    form(method="POST").edit-profile__form
+        label(for="title") TITLE
+        input(id="title" name="title" placeholder="New Title" value=video.title required)
+        label(for="description") DESCRIPTION
+        input(name="description" id="description" placeholder="Descrption" required type="text" value=video.description)
+        label(for="hashtags") HASHTAGS
         input(name="hashtags" placeholder="Hashtags, seperated by comma." required type="text" value=video.hashtags.join())
-        input(type="submit" value="Save") 
+        hr
+        input(type="submit" value="Save").input-submit 

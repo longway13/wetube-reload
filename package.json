@@ -7,8 +7,12 @@
     "url": "git+https://github.com/longway13/wetube-reload"
   },
   "scripts": {
+    "start": "node build/init.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build ",
+    "build:assets": "webpack --mode=production ",
     "dev:server": "nodemon",
-    "dev:assets": "webpack"
+    "dev:assets": "webpack --mode=development -w"
   },
   "author": "Gwanwoo",
   "license": "MIT",
@@ -32,6 +36,7 @@
     "regenerator-runtime": "^0.13.11"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.0",
     "@babel/core": "^7.20.12",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",

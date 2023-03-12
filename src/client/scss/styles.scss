@@ -11,6 +11,7 @@
 @import "./components/social-login.scss";
 @import "./components/video-playser.scss";
 @import "./components/record-box.scss";
+@import "./components/comments.scss";
 //Screens
 
 @import "./screens/home.scss";
@@ -36,6 +37,9 @@ main {
   width: 100%;
   margin: 0 auto;
   margin-top: 50px;
+}
+hr {
+  margin: 30px 0px;
 }
 
 @keyframes goAway {

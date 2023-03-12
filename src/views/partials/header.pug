@@ -18,7 +18,13 @@ header
                         span 😊                      
                     else 
                         a(href=`/users/${loggedInUser._id}`)
-                            img(src= "/" + loggedInUser.avatarUrl, crossorigin).header__avatar      
+                            if loggedInUser.socialOnly 
+                                img(src = loggedInUser.avatarUrl crossOrigin).header__avatar
+                            else 
+                                img(src= "/" + loggedInUser.avatarUrl).header__avatar      
+
+
+
             else        
                 li
                     a(href="/login") Login

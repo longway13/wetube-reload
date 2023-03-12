@@ -5,13 +5,18 @@ block content
     if errorMessage 
         h4=errorMessage
     form(method="POST" enctype="multipart/form-data").edit-profile__form
-        label(for="avatart") Avatar
+        label(for="avatar") Avatar
         input(type="file" id="avatar" name="avatar", accept="image/*")
-        input(name="email", placeholder="email" type="email" required value=loggedInUser.email)
-        input(name="name", placeholder="name" type="text" required value=loggedInUser.name)
-        input(name="username", placeholder="username" type="text" required value=loggedInUser.username)
-        input(name="location",placeholder="location" type="text" required value=loggedInUser.location)
-        input(type="submit", value= "Update Profile")
+        label(for="email") EMAIL
+        input(name="email", id="email",placeholder="email" type="email" required value=loggedInUser.email)
+        label(for="name") NAME
+        input(name="name", id="name",placeholder="name" type="text" required value=loggedInUser.name)
+        label(for="avatart") USERNAME
+        input(name="username", id="username",placeholder="username" type="text" required value=loggedInUser.username)
+        label(for="location") LOCATION 
+        input(name="location", id="location",placeholder="location" type="text" required value=loggedInUser.location)
+        hr
+        input(type="submit", value= "Update Profile").input-submit
         if !loggedInUser.socialOnly
             div.edit-profile__password 
                 a(href="change-password") Change password &rarr;

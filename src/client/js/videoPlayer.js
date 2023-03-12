@@ -97,8 +97,12 @@ const handleMouseLeave = () => {
   controlsTimeout = setTimeout(hideControls, 3000);
 };
 const fBtnToFullScreen = (event) => {
-  const { key } = event;
-  if (key.toLowerCase() === "f") {
+  console.log(event.srcElement.localName === "textarea");
+  const {
+    key,
+    srcElement: { localName },
+  } = event;
+  if (key.toLowerCase() === "f" && localName !== "textarea") {
     document.fullscreenElement
       ? document.exitFullscreen()
       : videoContainer.requestFullscreen();
