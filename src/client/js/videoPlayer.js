@@ -12,6 +12,9 @@ const fullScreenBtn = document.getElementById("fullScreen");
 const fullScreenBtnIcon = fullScreenBtn.querySelector("i");
 const videoContainer = document.getElementById("videoContainer");
 const videoControls = document.getElementById("videoControls");
+const duration = video.duration;
+totaltTime.innerText = formatTime(Math.floor(video.duration));
+timeline.max = Math.floor(video.duration);
 let volumeValue = 0.5;
 let controlsTimeout = null;
 let controlsMovementTimeout = null;
@@ -51,11 +54,6 @@ const handleVolumeChange = (event) => {
 };
 const formatTime = (seconds) =>
   new Date(seconds * 1000).toISOString().slice(14, 19);
-const handleLoadedMetaData = () => {
-  totaltTime.innerText = formatTime(Math.floor(video.duration));
-  timeline.max = Math.floor(video.duration);
-  console.log(timeline);
-};
 
 const handleTimeUpdate = () => {
   currentTime.innerText = formatTime(Math.floor(video.currentTime));
