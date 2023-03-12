@@ -18,10 +18,11 @@ header
                         span 😊                      
                     else 
                         a(href=`/users/${loggedInUser._id}`)
-                            if loggedInUser.socialOnly 
-                                img(src = loggedInUser.avatarUrl crossOrigin).header__avatar
-                            else 
-                                img(src= "/" + loggedInUser.avatarUrl).header__avatar      
+                            img(src=loggedInUser.avatarUrl crossOrigin).header__avatar
+                            //- if loggedInUser.socialOnly 
+                            //-     img(src = loggedInUser.avatarUrl crossOrigin).header__avatar
+                            //- else 
+                            //-     img(src= "/" + loggedInUser.avatarUrl).header__avatar      
 
 
 
